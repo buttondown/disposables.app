@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FD9527;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F97316;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Envelope body -->
+  <rect x="10" y="25" width="80" height="55" rx="4" fill="url(#grad)"/>
+  <!-- Envelope flap -->
+  <path d="M10 25 L50 55 L90 25" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Envelope lines (suggesting disposable/temporary) -->
+  <line x1="25" y1="65" x2="45" y2="65" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="25" y1="72" x2="55" y2="72" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <!-- Timer/clock indicator (suggesting temporary) -->
+  <circle cx="78" cy="22" r="14" fill="#fff"/>
+  <circle cx="78" cy="22" r="11" fill="url(#grad)"/>
+  <line x1="78" y1="22" x2="78" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  <line x1="78" y1="22" x2="83" y2="24" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+</svg>
