@@ -147,7 +147,7 @@ export const Rendered = renderToString(
           class="github"
           target="_blank"
           rel="noopener noreferrer"
-          href="https://github.com/buttondown/disposables.email"
+          href="https://github.com/buttondown/disposables.app"
         >
           <GitHubIcon />
         </a>
@@ -243,8 +243,11 @@ export const Rendered = renderToString(
     </table>
     <div class="stats-bar">
       <span>
-        Showing <span class="count" id="visible-count">{services.length}</span> of{" "}
-        <span class="count">{services.length}</span> domains
+        Showing{" "}
+        <span class="count" id="visible-count">
+          {services.length}
+        </span>{" "}
+        of <span class="count">{services.length}</span> domains
       </span>
     </div>
     <dialog id="modal">
@@ -270,8 +273,8 @@ export const Rendered = renderToString(
 
         <h2>API</h2>
         <p>
-          You can access the full database through our JSON API. Use it to validate
-          email addresses or block signups from disposable domains.
+          You can access the full database through our JSON API. Use it to
+          validate email addresses or block signups from disposable domains.
         </p>
         <div class="code-block">
           <code>curl https://disposables.app/api.json</code>
@@ -292,8 +295,8 @@ export const Rendered = renderToString(
             disposable before sending important communications
           </li>
           <li>
-            <b>Research:</b> Find temporary email services for testing or privacy
-            purposes
+            <b>Research:</b> Find temporary email services for testing or
+            privacy purposes
           </li>
           <li>
             <b>Security:</b> Identify potentially fraudulent accounts using
@@ -320,7 +323,7 @@ export const Rendered = renderToString(
       </div>
       <div class="footer">
         <a
-          href="https://github.com/buttondown/disposables.email"
+          href="https://github.com/buttondown/disposables.app"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -329,7 +332,11 @@ export const Rendered = renderToString(
         <a href="https://models.dev" target="_blank" rel="noopener noreferrer">
           Design by models.dev
         </a>
-        <a href="https://buttondown.com" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://buttondown.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Created by Buttondown
         </a>
       </div>

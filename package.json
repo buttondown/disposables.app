@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "disposables.email",
+  "name": "disposables.app",
   "version": "1.0.0",
   "description": "An open-source database of disposable email domains",
   "scripts": {
