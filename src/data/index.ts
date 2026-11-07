@@ -1,6 +1,21 @@
+import { readFileSync } from "fs";
+import path from "path";
 import { curatedServices, curatedServicesMap } from "./services";
-import { blocklist } from "./blocklist";
 import { createBasicService, type DisposableService } from "./types";
+
+function readDomainList(filename: string): string[] {
+  return readFileSync(path.join(import.meta.dir, filename), "utf8")
+    .split("\n")
+    .map((line) => line.trim().toLowerCase())
+    .filter((line) => line && !line.startsWith("#"));
+}
+
+// `upstream.txt` mirrors disposable-email-domains (refresh with `bun run sync`);
+// `additions.txt` holds domains we've confirmed that upstream doesn't list yet.
+export const blocklist: string[] = [
+  ...readDomainList("upstream.txt"),
+  ...readDomainList("additions.txt"),
+];
 
 // Build the complete list of services
 // Curated services take priority, blocklist fills in the rest

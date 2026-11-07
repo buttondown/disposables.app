@@ -582,3 +582,28 @@ dialog {
   font-weight: 500;
   color: var(--color-text-secondary);
 }
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0 calc(32px + 1.5rem);
+
+  button {
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    background: none;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+
+    &:hover {
+      border-color: var(--color-brand);
+      color: var(--color-text);
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+}

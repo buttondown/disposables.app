@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "disposables-app",
+  "compatibility_date": "2026-11-01",
+  // Static assets only: no Worker script runs, so requests are free and unmetered.
+  // https://developers.cloudflare.com/workers/static-assets/
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  // Custom domains need the disposables.app zone on the Cloudflare account first.
+  // The www -> apex redirect lives in the zone as a Redirect Rule.
+  "routes": [{ "pattern": "disposables.app", "custom_domain": true }]
+}

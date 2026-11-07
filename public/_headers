@@ -1,0 +1,10 @@
+# Cloudflare Workers static assets: https://developers.cloudflare.com/workers/static-assets/headers/
+/*
+  Access-Control-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+
+/api.json
+  Cache-Control: public, max-age=3600
+
+/domains.txt
+  Cache-Control: public, max-age=3600

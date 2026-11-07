@@ -1,0 +1,26 @@
+# Disposable domains that are not (yet) in the upstream
+# disposable-email-domains list. Each one was classified as disposable by
+# hand in Buttondown's production data after it showed up in real signups.
+# Prefer sending new domains upstream; list them here only while they wait.
+atinjo.com
+candaba.com
+edu98.us
+gay.email
+gghs-96.org
+gwshare.com
+harvinton.us
+houjiutu.com
+iemail.one
+in.mail.tm
+jianvan.com
+jy.llanhai.com
+keystonev.us
+lespedia.com
+louyouiu.com
+novainbox.net
+orionhill.us
+reg.promopilot.link
+si.llanhai.com
+signupoffers.metamail.com
+trashmailr.com
+yi.xwwei.com
