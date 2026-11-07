@@ -3,16 +3,25 @@ import path from "path";
 import { curatedServices, curatedServicesMap } from "./services";
 import { createBasicService, type DisposableService } from "./types";
 
-function readDomainList(filename: string): string[] {
+// Each line is `domain YYYY-MM-DD`; `#` starts a comment.
+function readDomainList(filename: string): [domain: string, dateAdded: string][] {
   return readFileSync(path.join(import.meta.dir, filename), "utf8")
     .split("\n")
     .map((line) => line.trim().toLowerCase())
-    .filter((line) => line && !line.startsWith("#"));
+    .filter((line) => line && !line.startsWith("#"))
+    .map((line) => {
+      const [domain, dateAdded] = line.split(/\s+/);
+      if (!dateAdded || !/^\d{4}-\d{2}-\d{2}$/.test(dateAdded)) {
+        throw new Error(`${filename}: "${line}" needs a YYYY-MM-DD date`);
+      }
+      return [domain, dateAdded];
+    });
 }
 
-// `upstream.txt` mirrors disposable-email-domains (refresh with `bun run sync`);
-// `additions.txt` holds domains we've confirmed that upstream doesn't list yet.
-export const blocklist: string[] = [
+// `upstream.txt` mirrors disposable-email-domains (refresh with `bun run sync`),
+// dated by when each domain first appeared upstream; `additions.txt` holds
+// domains we've confirmed that upstream doesn't list yet.
+export const blocklist = [
   ...readDomainList("upstream.txt"),
   ...readDomainList("additions.txt"),
 ];
@@ -36,9 +45,9 @@ export function getAllServices(): DisposableService[] {
   }
 
   // Add remaining domains from blocklist
-  for (const domain of blocklist) {
+  for (const [domain, dateAdded] of blocklist) {
     if (!seenDomains.has(domain)) {
-      allServices.push(createBasicService(domain));
+      allServices.push(createBasicService(domain, dateAdded));
       seenDomains.add(domain);
     }
   }

@@ -33,9 +33,11 @@ Each entry contains:
   },
   "domainCount": 1,
   "altDomains": [],
-  "dateAdded": "2024-01-01"
+  "dateAdded": "2016-03-16"
 }
 ```
+
+`dateAdded` is the day the domain first appeared in the upstream list (`2014-09-02` is that list's first commit), or the day it was classified, for domains from `additions.txt`.
 
 Alternate domains for a curated service are nested under `altDomains`, not listed as their own entries.
 
@@ -76,7 +78,7 @@ bun run preview
 bun run deploy
 ```
 
-A GitHub Action runs `bun run sync` every Monday and commits any change.
+The `Deploy` GitHub Action builds and deploys to Cloudflare on every push to `main`. Every Monday it also runs `bun run sync`, commits any change, and deploys. Deploys need the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets; without them the workflow still syncs and builds, then skips the deploy step.
 
 ## Data Sources
 
@@ -90,6 +92,6 @@ Domain data is sourced from:
 
 The best place for a new domain is upstream: open a pull request against [disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains), and the weekly sync will pick it up.
 
-To list a domain here in the meantime, add it to `src/data/additions.txt` (one per line). Only add domains used for throwaway addresses. Don't add a domain just because it sent spam, because it's a typo of a real provider (`gamil.com`), or because a real organization uses it.
+To list a domain here in the meantime, add it to `src/data/additions.txt` as `domain YYYY-MM-DD`, one per line. Only add domains used for throwaway addresses. Don't add a domain just because it sent spam, because it's a typo of a real provider (`gamil.com`), or because a real organization uses it.
 
 For curated services with full metadata, edit `src/data/services.ts`.

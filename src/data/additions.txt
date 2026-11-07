@@ -2,25 +2,26 @@
 # disposable-email-domains list. Each one was classified as disposable by
 # hand in Buttondown's production data after it showed up in real signups.
 # Prefer sending new domains upstream; list them here only while they wait.
-atinjo.com
-candaba.com
-edu98.us
-gay.email
-gghs-96.org
-gwshare.com
-harvinton.us
-houjiutu.com
-iemail.one
-in.mail.tm
-jianvan.com
-jy.llanhai.com
-keystonev.us
-lespedia.com
-louyouiu.com
-novainbox.net
-orionhill.us
-reg.promopilot.link
-si.llanhai.com
-signupoffers.metamail.com
-trashmailr.com
-yi.xwwei.com
+# Format: `domain YYYY-MM-DD`, where the date is when the domain was classified.
+atinjo.com 2026-01-12
+candaba.com 2026-07-27
+edu98.us 2025-11-22
+gay.email 2025-04-22
+gghs-96.org 2025-12-07
+gwshare.com 2026-07-23
+harvinton.us 2026-06-23
+houjiutu.com 2025-06-04
+iemail.one 2025-07-07
+in.mail.tm 2025-12-08
+jianvan.com 2025-06-04
+jy.llanhai.com 2026-06-23
+keystonev.us 2026-06-23
+lespedia.com 2025-08-30
+louyouiu.com 2025-06-04
+novainbox.net 2025-07-18
+orionhill.us 2026-06-23
+reg.promopilot.link 2026-08-17
+si.llanhai.com 2026-06-23
+signupoffers.metamail.com 2026-06-26
+trashmailr.com 2026-11-03
+yi.xwwei.com 2026-06-23

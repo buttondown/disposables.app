@@ -19,14 +19,21 @@ const domains = [
   ),
 ].sort();
 
-const previous = new Set(
+// Each line is `domain YYYY-MM-DD`: the day the domain first showed up upstream
+// (backfilled from upstream's git history). Keep existing dates; a domain new
+// to this sync is dated today, at most a week after upstream added it.
+const previous = new Map(
   (await Bun.file(OUTPUT).exists())
-    ? (await Bun.file(OUTPUT).text()).split("\n").filter(Boolean)
+    ? (await Bun.file(OUTPUT).text())
+        .split("\n")
+        .filter(Boolean)
+        .map((line) => line.split(" ") as [string, string])
     : []
 );
+const today = new Date().toISOString().slice(0, 10);
 const added = domains.filter((domain) => !previous.has(domain));
 const current = new Set(domains);
-const removed = [...previous].filter((domain) => !current.has(domain));
+const removed = [...previous.keys()].filter((domain) => !current.has(domain));
 
 // A truncated or broken upstream file shouldn't silently wipe the list.
 const MAX_REMOVALS = 500;
@@ -37,7 +44,11 @@ if (removed.length > MAX_REMOVALS) {
   process.exit(1);
 }
 
-await Bun.write(OUTPUT, domains.join("\n") + "\n");
+await Bun.write(
+  OUTPUT,
+  domains.map((domain) => `${domain} ${previous.get(domain) ?? today}`).join("\n") +
+    "\n"
+);
 console.log(
   `Wrote ${domains.length} domains to src/data/upstream.txt (+${added.length} / -${removed.length})`
 );
