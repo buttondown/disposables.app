@@ -5,12 +5,16 @@
   "description": "An open-source database of disposable email domains",
   "scripts": {
     "dev": "bun run --hot ./src/server.ts",
-    "build": "bun run ./src/build.ts"
+    "build": "bun run ./src/build.ts",
+    "sync": "bun run ./scripts/sync.ts",
+    "preview": "bun run build && wrangler dev",
+    "deploy": "bun run build && wrangler deploy"
   },
   "dependencies": {
     "hono": "^4.8.0"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.16"
+    "@types/bun": "^1.2.16",
+    "wrangler": "^4.158.0"
   }
 }

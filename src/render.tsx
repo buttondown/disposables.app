@@ -3,82 +3,11 @@
 
 import { Fragment } from "hono/jsx";
 import { renderToString } from "hono/jsx/dom/server";
-import { getAllServices, type DisposableService } from "./data";
+import { getAllServices } from "./data";
+import { COLUMNS, PAGE_SIZE, defaultOrder, renderRow } from "./row";
 
 const services = getAllServices();
-
-const getFaviconUrl = (domain: string) => {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
-};
-
-const FallbackIcon = () => (
-  <span class="fallback-icon">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  </span>
-);
-
-const ExternalLinkIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    <polyline points="15 3 21 3 21 9" />
-    <line x1="10" y1="14" x2="21" y2="3" />
-  </svg>
-);
-
-const CopyIcon = () => (
-  <svg
-    class="copy-icon"
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-    <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg
-    class="check-icon"
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    style="display: none;"
-  >
-    <polyline points="20,6 9,17 4,12" />
-  </svg>
-);
+const initialRows = [...services].sort(defaultOrder).slice(0, PAGE_SIZE);
 
 const GitHubIcon = () => (
   <svg
@@ -117,23 +46,6 @@ const CloseIcon = () => (
   </svg>
 );
 
-const renderStatus = (status: DisposableService["status"]) => {
-  return (
-    <span class={`status-badge ${status}`}>
-      <span class="status-dot" />
-      {status}
-    </span>
-  );
-};
-
-const renderFeature = (enabled: boolean) => {
-  return enabled ? (
-    <span class="feature-yes">Yes</span>
-  ) : (
-    <span class="feature-no">No</span>
-  );
-};
-
 export const Rendered = renderToString(
   <Fragment>
     <header>
@@ -161,93 +73,39 @@ export const Rendered = renderToString(
     <table>
       <thead>
         <tr>
-          <th class="sortable" data-type="text">
-            Domain <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="text">
-            Status <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="text">
-            Pricing <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="text">
-            Retention <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="boolean">
-            API <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="boolean">
-            Custom Inbox <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="boolean">
-            Attachments <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="boolean">
-            Replyable <span class="sort-indicator"></span>
-          </th>
-          <th class="sortable" data-type="number">
-            Domains <span class="sort-indicator"></span>
-          </th>
+          {COLUMNS.map((column) => (
+            <th class="sortable" data-type={column.type} data-key={column.key}>
+              {column.label} <span class="sort-indicator"></span>
+            </th>
+          ))}
           <th>Website</th>
         </tr>
       </thead>
-      <tbody>
-        {services.map((service) => (
-          <tr key={service.domain} data-domain={service.domain}>
-            <td>
-              <div class="domain-cell">
-                <img
-                  src={getFaviconUrl(service.domain)}
-                  alt=""
-                  loading="lazy"
-                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-                />
-                <FallbackIcon />
-                <span class="domain-text">{service.domain}</span>
-                <button
-                  class="copy-button"
-                  onclick={`copyDomain(this, '${service.domain}')`}
-                  title="Copy domain"
-                >
-                  <CopyIcon />
-                  <CheckIcon />
-                </button>
-              </div>
-            </td>
-            <td>{renderStatus(service.status)}</td>
-            <td>{service.pricing}</td>
-            <td>{service.retention || "-"}</td>
-            <td>{renderFeature(service.features.api)}</td>
-            <td>{renderFeature(service.features.customInbox)}</td>
-            <td>{renderFeature(service.features.attachments)}</td>
-            <td>{renderFeature(service.features.replyable)}</td>
-            <td>{service.domainCount}</td>
-            <td>
-              {service.website ? (
-                <a
-                  class="website-link"
-                  href={service.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={service.website}
-                >
-                  <ExternalLinkIcon />
-                </a>
-              ) : (
-                "-"
-              )}
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      <tbody
+        dangerouslySetInnerHTML={{ __html: initialRows.map(renderRow).join("") }}
+      ></tbody>
     </table>
+    <div class="load-more">
+      <button id="load-more" hidden={initialRows.length >= services.length}>
+        Show more
+      </button>
+    </div>
     <div class="stats-bar">
       <span>
         Showing{" "}
         <span class="count" id="visible-count">
-          {services.length}
+          {initialRows.length.toLocaleString("en-US")}
         </span>{" "}
-        of <span class="count">{services.length}</span> domains
+        of{" "}
+        <span class="count" id="matching-count">
+          {services.length.toLocaleString("en-US")}
+        </span>{" "}
+        domains
+        <span id="total-note" hidden>
+          {" "}
+          (<span class="count">{services.length.toLocaleString("en-US")}</span>{" "}
+          total)
+        </span>
       </span>
     </div>
     <dialog id="modal">
@@ -282,7 +140,16 @@ export const Rendered = renderToString(
         <p>
           The API returns an array of all disposable email domains with their
           metadata including status, features, and pricing information.
+          Alternate domains for a service are nested under{" "}
+          <code>altDomains</code>.
         </p>
+        <p>
+          If you only need the domains, use the plain-text list instead. It has
+          one domain per line, alternate domains included.
+        </p>
+        <div class="code-block">
+          <code>curl https://disposables.app/domains.txt</code>
+        </div>
 
         <h2>Use Cases</h2>
         <ul>

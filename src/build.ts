@@ -1,3 +1,4 @@
+import { cp } from "fs/promises";
 import { Rendered, services } from "./render";
 import path from "path";
 
@@ -44,19 +45,24 @@ async function build() {
   await Bun.write(path.join(DIST_DIR, "index.css"), css);
   console.log("  - Copied index.css");
 
-  // Copy favicon
-  const favicon = await Bun.file(
-    path.join(import.meta.dir, "..", "public", "favicon.svg")
-  ).arrayBuffer();
-  await Bun.write(path.join(DIST_DIR, "favicon.svg"), favicon);
-  console.log("  - Copied favicon.svg");
+  // Copy static files (favicon, robots.txt, 404 page, Cloudflare _headers)
+  await cp(path.join(import.meta.dir, "..", "public"), DIST_DIR, {
+    recursive: true,
+  });
+  console.log("  - Copied public/");
 
   // Generate api.json
-  await Bun.write(
-    path.join(DIST_DIR, "api.json"),
-    JSON.stringify(services, null, 2)
-  );
-  console.log("  - Generated api.json");
+  await Bun.write(path.join(DIST_DIR, "api.json"), JSON.stringify(services));
+  console.log(`  - Generated api.json (${services.length} services)`);
+
+  // Generate domains.txt: every domain, alternate domains included
+  const domains = [
+    ...new Set(
+      services.flatMap((service) => [service.domain, ...service.altDomains])
+    ),
+  ].sort();
+  await Bun.write(path.join(DIST_DIR, "domains.txt"), domains.join("\n") + "\n");
+  console.log(`  - Generated domains.txt (${domains.length} domains)`);
 
   console.log("\nBuild complete! Output in ./dist");
 }

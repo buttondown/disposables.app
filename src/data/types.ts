@@ -18,7 +18,10 @@ export interface DisposableService {
   description?: string;
 }
 
-export function createBasicService(domain: string): DisposableService {
+export function createBasicService(
+  domain: string,
+  dateAdded: string
+): DisposableService {
   // Extract a name from the domain
   const name = domain
     .replace(/\.(com|net|org|io|email|mail|me|cc|co|de|ru|tk|ml|ga|cf|gq)$/i, "")
@@ -41,6 +44,6 @@ export function createBasicService(domain: string): DisposableService {
     },
     domainCount: 1,
     altDomains: [],
-    dateAdded: "2024-01-01",
+    dateAdded,
   };
 }

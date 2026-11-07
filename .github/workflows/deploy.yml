@@ -1,0 +1,50 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+
+      # Weekly (or on demand): pull the upstream list and commit any change.
+      # A push made with GITHUB_TOKEN doesn't start another run, so this run
+      # deploys it below.
+      - name: Sync upstream blocklist
+        if: github.event_name != 'push'
+        run: |
+          bun run sync
+          if git diff --quiet -- src/data/upstream.txt; then
+            echo "Upstream unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898248+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync upstream blocklist" -- src/data/upstream.txt
+          git push
+
+      - run: bun run build
+
+      # Skipped until the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID
+      # repository secrets exist.
+      - name: Deploy to Cloudflare
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: bunx wrangler deploy

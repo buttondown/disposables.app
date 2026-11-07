@@ -1,0 +1,61 @@
+# Disposable domains that are not (yet) in the upstream
+# disposable-email-domains list. Each one either was classified as disposable
+# by hand in Buttondown's production data after it showed up in real signups,
+# or receives mail on the same MX hosts as domains upstream already lists.
+# Prefer sending new domains upstream; list them here only while they wait.
+# Format: `domain YYYY-MM-DD`, where the date is when the domain was classified.
+adosnan.com 2026-11-07
+adramail.com 2026-11-07
+advitize.com 2026-11-07
+arinuse.com 2026-11-07
+atinjo.com 2026-01-12
+bnsteps.com 2026-11-07
+btcours.com 2026-11-07
+candaba.com 2026-07-27
+clsn1.com 2026-11-07
+edu98.us 2025-11-22
+edusamail.net 2026-11-07
+emailnube.com 2026-11-07
+finxmail.com 2026-11-07
+gay.email 2025-04-22
+gghs-96.org 2025-12-07
+gianes.com 2026-11-07
+gwshare.com 2026-07-23
+hartaria.com 2026-11-07
+harvinton.us 2026-06-23
+houjiutu.com 2025-06-04
+httpsu.com 2026-11-07
+iemail.one 2025-07-07
+in.mail.tm 2025-12-08
+jalcemail.net 2026-11-07
+jameagle.com 2026-11-07
+jianvan.com 2025-06-04
+jomspar.com 2026-11-07
+jy.llanhai.com 2026-06-23
+keystonev.us 2026-06-23
+lassora.com 2026-11-07
+lespedia.com 2025-08-30
+louyouiu.com 2025-06-04
+mailernam.com 2026-11-07
+mailimail.com 2026-11-07
+mytrumail.com 2026-11-07
+nedoz.com 2026-11-07
+noomlocs.com 2026-11-07
+novainbox.net 2025-07-18
+nuevomail.com 2026-11-07
+operades.com 2026-11-07
+opposir.com 2026-11-07
+orionhill.us 2026-06-23
+oziere.com 2026-11-07
+p5mail.com 2026-11-07
+reg.promopilot.link 2026-08-17
+si.llanhai.com 2026-06-23
+signupoffers.metamail.com 2026-06-26
+smlmail.net 2026-11-07
+trashmailr.com 2026-11-03
+twodrops.org 2026-11-07
+vasomly.com 2026-11-07
+wwdee.com 2026-11-07
+x3mailer.com 2026-11-07
+x7mail.com 2026-11-07
+yi.xwwei.com 2026-06-23
